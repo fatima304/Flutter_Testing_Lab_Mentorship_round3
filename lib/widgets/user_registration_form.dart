@@ -94,7 +94,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a password';
                 }
-                if (!isValidPassword(value)) {
+                if (!Validators.isValidPassword(value)) {
                   return 'Password is too weak';
                 }
                 return null;
