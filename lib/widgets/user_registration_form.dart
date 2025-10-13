@@ -18,12 +18,14 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   bool _isLoading = false;
   String _message = '';
 
-
-  bool isValidPassword(String password) {
-    return true;
-  }
-
   Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) {
+      setState(() {
+        _message = 'Please fix errors in the form';
+      });
+      return;
+    }
+
     setState(() {
       _isLoading = true;
       _message = '';
