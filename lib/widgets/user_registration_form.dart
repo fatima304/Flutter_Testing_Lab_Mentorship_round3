@@ -18,12 +18,6 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   bool _isLoading = false;
   String _message = '';
 
- 
-
-  bool isValidPassword(String password) {
-    return true;
-  }
-
   Future<void> _submitForm() async {
     setState(() {
       _isLoading = true;
@@ -95,7 +89,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a password';
                 }
-                if (!isValidPassword(value)) {
+                if (!Validators.isValidPassword(value)) {
                   return 'Password is too weak';
                 }
                 return null;
