@@ -18,20 +18,28 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   bool _isLoading = false;
   String _message = '';
 
-  Future<void> _submitForm() async {
-    setState(() {
-      _isLoading = true;
-      _message = '';
+Future<void> _submitForm() async {
+  if (!_formKey.currentState!.validate()) {
+     setState(() {
+      _message = 'Please fix errors in the form';
     });
-
-    // Simulate API call
-    await Future.delayed(const Duration(seconds: 2));
-
-    setState(() {
-      _isLoading = false;
-      _message = 'Registration successful!';
-    });
+    return;
   }
+
+  setState(() {
+    _isLoading = true;
+    _message = '';
+  });
+
+  // Simulate API call
+  await Future.delayed(const Duration(seconds: 2));
+
+  setState(() {
+    _isLoading = false;
+    _message = 'Registration successful!';
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
