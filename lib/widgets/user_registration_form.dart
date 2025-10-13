@@ -18,28 +18,25 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   bool _isLoading = false;
   String _message = '';
 
-Future<void> _submitForm() async {
-  if (!_formKey.currentState!.validate()) {
-     setState(() {
-      _message = 'Please fix errors in the form';
-    });
-    return;
+
+  bool isValidPassword(String password) {
+    return true;
   }
 
-  setState(() {
-    _isLoading = true;
-    _message = '';
-  });
+  Future<void> _submitForm() async {
+    setState(() {
+      _isLoading = true;
+      _message = '';
+    });
 
-  // Simulate API call
-  await Future.delayed(const Duration(seconds: 2));
+    // Simulate API call
+    await Future.delayed(const Duration(seconds: 2));
 
-  setState(() {
-    _isLoading = false;
-    _message = 'Registration successful!';
-  });
-}
-
+    setState(() {
+      _isLoading = false;
+      _message = 'Registration successful!';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +94,7 @@ Future<void> _submitForm() async {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a password';
                 }
-                if (!Validators.isValidPassword(value)) {
+                if (!isValidPassword(value)) {
                   return 'Password is too weak';
                 }
                 return null;

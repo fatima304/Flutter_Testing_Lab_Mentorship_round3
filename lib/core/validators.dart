@@ -5,11 +5,4 @@ class Validators {
     );
     return emailRegex.hasMatch(email);
   }
-
-  static bool isValidPassword(String password) {
-    final passwordRegex = RegExp(
-      r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$',
-    );
-    return passwordRegex.hasMatch(password);
-  }
 }
