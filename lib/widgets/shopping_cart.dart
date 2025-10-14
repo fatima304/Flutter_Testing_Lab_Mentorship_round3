@@ -12,24 +12,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
   final List<CartItem> _items = [];
 
   final ShoppingCartLogic shoppingCartLogic = ShoppingCartLogic();
-  void removeItem(String id) {
-    setState(() {
-      _items.removeWhere((item) => item.id == id);
-    });
-  }
-
-  void updateQuantity(String id, int newQuantity) {
-    setState(() {
-      final index = _items.indexWhere((item) => item.id == id);
-      if (index != -1) {
-        if (newQuantity <= 0) {
-          _items.removeAt(index);
-        } else {
-          _items[index].quantity = newQuantity;
-        }
-      }
-    });
-  }
 
   void clearCart() {
     setState(() {
@@ -169,7 +151,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         children: [
                           IconButton(
                             onPressed: () =>
-                                updateQuantity(item.id, item.quantity - 1),
+                                shoppingCartLogic.updateQuantity(item.id, item.quantity - 1),
                             icon: const Icon(Icons.remove),
                           ),
                           Container(
@@ -185,11 +167,11 @@ class _ShoppingCartState extends State<ShoppingCart> {
                           ),
                           IconButton(
                             onPressed: () =>
-                                updateQuantity(item.id, item.quantity + 1),
+                                 shoppingCartLogic.updateQuantity(item.id, item.quantity + 1),
                             icon: const Icon(Icons.add),
                           ),
                           IconButton(
-                            onPressed: () => removeItem(item.id),
+                            onPressed: () =>  shoppingCartLogic.removeItem(item.id),
                             icon: const Icon(Icons.delete),
                             color: Colors.red,
                           ),

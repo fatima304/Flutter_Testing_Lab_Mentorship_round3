@@ -124,4 +124,42 @@ void main() {
       expect(calculatedTotal, totalAmount);
     });
   });
+
+  group('ShoppingCart - Remove & Update Quantity', () {
+    test('Update quantity of existing item', () {
+      cartLogic.addItem('1', 'iPhone', 1000);
+      cartLogic.updateQuantity('1', 5);
+      expect(cartLogic.items.first.quantity, 5);
+    });
+
+    test('Update quantity to 1 keeps item in cart', () {
+      cartLogic.addItem('1', 'iPhone', 1000);
+      cartLogic.updateQuantity('1', 1);
+      expect(cartLogic.items.length, 1);
+      expect(cartLogic.items.first.quantity, 1);
+    });
+
+    test('Update quantity to 0 removes the item from cart', () {
+      cartLogic.addItem('1', 'iPhone', 1000);
+      cartLogic.updateQuantity('1', 0);
+      expect(cartLogic.items.isEmpty, true);
+    });
+
+    test('Remove existing item by ID', () {
+      cartLogic.addItem('1', 'iPhone', 1000);
+      cartLogic.removeItem('1');
+      expect(cartLogic.items.isEmpty, true);
+    });
+
+    test('Remove non-existing item does nothing', () {
+      cartLogic.addItem('1', 'iPhone', 1000);
+      cartLogic.removeItem('99');
+      expect(cartLogic.items.length, 1);
+    });
+
+    test('Edge Case: Update quantity of non-existent item', () {
+      cartLogic.updateQuantity('99', 5);
+      expect(cartLogic.items.isEmpty, true);
+    });
+  });
 }
