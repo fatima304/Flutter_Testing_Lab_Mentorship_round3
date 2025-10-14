@@ -2,13 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_testing_lab/core/cart_logic.dart';
 
 void main() {
-  group('ShoppingCartLogic - Duplicate Items', () {
-    late ShoppingCartLogic cartLogic;
+  late ShoppingCartLogic cartLogic;
 
-    setUp(() {
-      cartLogic = ShoppingCartLogic();
-    });
-
+  setUp(() {
+    cartLogic = ShoppingCartLogic();
+  });
+  group('ShoppingCart - Duplicate Items', () {
     test('Adding a new item adds it to the cart', () {
       cartLogic.addItem('1', 'iPhone', 1000);
       expect(cartLogic.items.length, 1);
@@ -46,6 +45,34 @@ void main() {
       expect(cartLogic.items.length, 2);
       expect(cartLogic.items.first.quantity, 2);
       expect(cartLogic.items[1].quantity, 1);
+    });
+  });
+
+  group('ShoppingCart - Discount', () {
+    test('Single item discount', () {
+      cartLogic.addItem('1', 'iPhone', 1000, discount: 0.1);
+      expect(cartLogic.totalDiscount, 100);
+    });
+
+    test('Multiple quantity discount', () {
+      cartLogic.addItem('1', 'iPhone', 1000, discount: 0.1);
+      cartLogic.addItem('1', 'iPhone', 1000, discount: 0.1);
+      expect(cartLogic.totalDiscount, 200);
+    });
+
+    test('Multiple items discount', () {
+      cartLogic.addItem('1', 'iPhone', 1000, discount: 0.1);
+      cartLogic.addItem('2', 'Galaxy', 900, discount: 0.15);
+      expect(cartLogic.totalDiscount, 100 + 135);
+    });
+
+    test('Edge case: empty cart', () {
+      expect(cartLogic.totalDiscount, 0);
+    });
+
+    test('Edge case: 100% discount', () {
+      cartLogic.addItem('3', 'iPad', 500, discount: 1.0);
+      expect(cartLogic.totalDiscount, 500);
     });
   });
 }
