@@ -4,10 +4,10 @@ class WeatherDisplay extends StatefulWidget {
   const WeatherDisplay({super.key});
 
   @override
-  State<WeatherDisplay> createState() => _WeatherDisplayState();
+  State<WeatherDisplay> createState() => WeatherDisplayState();
 }
 
-class _WeatherDisplayState extends State<WeatherDisplay> {
+class WeatherDisplayState extends State<WeatherDisplay> {
   WeatherData? _weatherData;
   bool _isLoading = false;
   String? _error;
@@ -17,12 +17,13 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
   final List<String> _cities = ['New York', 'London', 'Tokyo', 'Invalid City'];
 
   double celsiusToFahrenheit(double celsius) {
-    return celsius * 9 / 5;
-  }
+  return (celsius * 9 / 5) + 32;
+}
 
-  double fahrenheitToCelsius(double fahrenheit) {
-    return fahrenheit - 32 * 5 / 9;
-  }
+double fahrenheitToCelsius(double fahrenheit) {
+  return (fahrenheit - 32) * 5 / 9;
+}
+
 
   // Simulate API call that sometimes returns null or malformed data
   Future<Map<String, dynamic>?> _fetchWeatherData(String city) async {
