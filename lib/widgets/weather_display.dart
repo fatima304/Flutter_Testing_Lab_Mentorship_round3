@@ -58,6 +58,15 @@ class WeatherDisplayState extends State<WeatherDisplay> {
 
     final data = await fetchWeatherData(_selectedCity);
 
+    if (data == null) {
+      setState(() {
+        _error = 'No weather data available';
+        _weatherData = null;
+        _isLoading = false;
+      });
+      return;
+    }
+
     try {
       final weather = WeatherData.fromJson(data);
       setState(() {
