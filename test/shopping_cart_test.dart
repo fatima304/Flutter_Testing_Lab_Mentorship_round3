@@ -7,6 +7,7 @@ void main() {
   setUp(() {
     cartLogic = ShoppingCartLogic();
   });
+
   group('ShoppingCart - Duplicate Items', () {
     test('Adding a new item adds it to the cart', () {
       cartLogic.addItem('1', 'iPhone', 1000);
@@ -66,13 +67,61 @@ void main() {
       expect(cartLogic.totalDiscount, 100 + 135);
     });
 
-    test('Edge case: empty cart', () {
-      expect(cartLogic.totalDiscount, 0);
-    });
-
     test('Edge case: 100% discount', () {
       cartLogic.addItem('3', 'iPad', 500, discount: 1.0);
       expect(cartLogic.totalDiscount, 500);
+    });
+  });
+
+  group('ShoppingCart - Total Amount', () {
+    test('Single item without discount', () {
+      cartLogic.addItem('1', 'iPhone', 1000);
+      final subtotal = 1000;
+      final discount = 0;
+      final totalAmount = subtotal - discount;
+      expect(
+        cartLogic.items.first.price * cartLogic.items.first.quantity -
+            cartLogic.totalDiscount,
+        totalAmount,
+      );
+    });
+
+    test('Single item with discount', () {
+      cartLogic.addItem('1', 'iPhone', 1000, discount: 0.1);
+      final subtotal = 1000;
+      final discount = 100;
+      final totalAmount = subtotal - discount;
+      expect(
+        cartLogic.items.first.price * cartLogic.items.first.quantity -
+            cartLogic.totalDiscount,
+        totalAmount,
+      );
+    });
+
+    test('Multiple items with mixed discounts', () {
+      cartLogic.addItem('1', 'iPhone', 1000, discount: 0.1);
+      cartLogic.addItem('2', 'Galaxy', 900, discount: 0.15);
+      final subtotal = 1000 + 900;
+      final discount = 100 + 135;
+      final totalAmount = subtotal - discount;
+      final calculatedTotal = (1000 + 900) - cartLogic.totalDiscount;
+      expect(calculatedTotal, totalAmount);
+    });
+
+    test('Edge case: empty cart', () {
+      expect(cartLogic.items.isEmpty, true);
+      expect(cartLogic.totalDiscount, 0);
+    });
+
+    test('Edge case: 100% discount on an item', () {
+      cartLogic.addItem('3', 'iPad', 500, discount: 1.0);
+      final subtotal = 500;
+      final discount = 500;
+      final totalAmount = subtotal - discount;
+      final calculatedTotal =
+          cartLogic.items.first.price * cartLogic.items.first.quantity -
+          cartLogic.totalDiscount;
+      expect(calculatedTotal, totalAmount);
     });
   });
 }
