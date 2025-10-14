@@ -1,3 +1,4 @@
+
 class CartItem {
   final String id;
   final String name;
@@ -41,18 +42,17 @@ class ShoppingCartLogic {
   }
 
   void removeItem(String id) {
-  _items.removeWhere((item) => item.id == id);
-}
+    _items.removeWhere((item) => item.id == id);
+  }
 
-void updateQuantity(String id, int quantity) {
-  final index = _items.indexWhere((item) => item.id == id);
-  if (index != -1) {
-    if (quantity <= 0) {
-      _items.removeAt(index);
-    } else {
-      _items[index].quantity = quantity;
+  void updateQuantity(String id, int quantity) {
+    final index = _items.indexWhere((item) => item.id == id);
+    if (index != -1) {
+      if (quantity <= 0) {
+        _items.removeAt(index);
+      } else {
+        _items[index].quantity = quantity;
+      }
     }
   }
-}
-
 }
