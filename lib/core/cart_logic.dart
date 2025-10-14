@@ -31,4 +31,12 @@ class ShoppingCartLogic {
       );
     }
   }
+
+ double get totalDiscount {
+    double discount = 0;
+    for (var item in _items) {
+      discount += item.price * item.discount * item.quantity; 
+     }
+    return discount;
+  }
 }

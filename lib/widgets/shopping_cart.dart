@@ -11,7 +11,7 @@ class ShoppingCart extends StatefulWidget {
 class _ShoppingCartState extends State<ShoppingCart> {
   final List<CartItem> _items = [];
 
-final ShoppingCartLogic shoppingCartLogic = ShoppingCartLogic();
+  final ShoppingCartLogic shoppingCartLogic = ShoppingCartLogic();
   void removeItem(String id) {
     setState(() {
       _items.removeWhere((item) => item.id == id);
@@ -45,16 +45,10 @@ final ShoppingCartLogic shoppingCartLogic = ShoppingCartLogic();
     return total;
   }
 
-  double get totalDiscount {
-    double discount = 0;
-    for (var item in _items) {
-      discount += item.discount * item.quantity;
-    }
-    return discount;
-  }
+  double get totalDiscount => shoppingCartLogic.totalDiscount;
 
   double get totalAmount {
-    return subtotal + totalDiscount;
+    return subtotal - totalDiscount;
   }
 
   int get totalItems {
@@ -69,22 +63,35 @@ final ShoppingCartLogic shoppingCartLogic = ShoppingCartLogic();
           spacing: 8,
           children: [
             ElevatedButton(
-              onPressed: () =>
-                  shoppingCartLogic.addItem('1', 'Apple iPhone', 999.99, discount: 0.1),
+              onPressed: () => shoppingCartLogic.addItem(
+                '1',
+                'Apple iPhone',
+                999.99,
+                discount: 0.1,
+              ),
               child: const Text('Add iPhone'),
             ),
             ElevatedButton(
-              onPressed: () =>
-                   shoppingCartLogic.addItem('2', 'Samsung Galaxy', 899.99, discount: 0.15),
+              onPressed: () => shoppingCartLogic.addItem(
+                '2',
+                'Samsung Galaxy',
+                899.99,
+                discount: 0.15,
+              ),
               child: const Text('Add Galaxy'),
             ),
             ElevatedButton(
-              onPressed: () =>  shoppingCartLogic.addItem('3', 'iPad Pro', 1099.99),
+              onPressed: () =>
+                  shoppingCartLogic.addItem('3', 'iPad Pro', 1099.99),
               child: const Text('Add iPad'),
             ),
             ElevatedButton(
-              onPressed: () =>
-                   shoppingCartLogic.addItem('1', 'Apple iPhone', 999.99, discount: 0.1),
+              onPressed: () => shoppingCartLogic.addItem(
+                '1',
+                'Apple iPhone',
+                999.99,
+                discount: 0.1,
+              ),
               child: const Text('Add iPhone Again'),
             ),
           ],
@@ -116,6 +123,7 @@ final ShoppingCartLogic shoppingCartLogic = ShoppingCartLogic();
               const SizedBox(height: 8),
               Text('Subtotal: \$${subtotal.toStringAsFixed(2)}'),
               Text('Total Discount: \$${totalDiscount.toStringAsFixed(2)}'),
+
               const Divider(),
               Text(
                 'Total Amount: \$${totalAmount.toStringAsFixed(2)}',
