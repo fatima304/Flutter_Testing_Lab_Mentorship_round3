@@ -25,7 +25,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
   }
 
   // Simulate API call that sometimes returns null or malformed data
-  Future<Map<String, dynamic>?> _fetchWeatherData(String city) async {
+  Future<Map<String, dynamic>?> fetchWeatherData(String city) async {
     await Future.delayed(const Duration(seconds: 2));
 
     if (city == 'Invalid City') {
@@ -56,7 +56,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
       });
     }
 
-    final data = await _fetchWeatherData(_selectedCity);
+    final data = await fetchWeatherData(_selectedCity);
 
     try {
       final weather = WeatherData.fromJson(data);

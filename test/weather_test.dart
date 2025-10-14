@@ -16,12 +16,28 @@ void main() {
     });
   });
 
-test('Edge Case: Decimal temperatures conversion', () {
-  final widgetState = WeatherDisplayState();
-  final resultF = widgetState.celsiusToFahrenheit(37.5);
-  expect(resultF.toStringAsFixed(1), '99.5');
+  test('Edge Case: Decimal temperatures conversion', () {
+    final widgetState = WeatherDisplayState();
+    final resultF = widgetState.celsiusToFahrenheit(37.5);
+    expect(resultF.toStringAsFixed(1), '99.5');
 
-  final resultC = widgetState.fahrenheitToCelsius(99.5);
-  expect(resultC.toStringAsFixed(1), '37.5');
-});
+    final resultC = widgetState.fahrenheitToCelsius(99.5);
+    expect(resultC.toStringAsFixed(1), '37.5');
+  });
+
+  group('WeatherDisplay - Null & Incomplete Data Handling', () {
+    test('Handles null API response gracefully', () async {
+      final state = WeatherDisplayState();
+      final data = await state.fetchWeatherData('Invalid City');
+      expect(data, null);
+    });
+
+    test('Throws FormatException on incomplete data', () {
+      final incompleteData = {'city': 'Cairo', 'temperature': 30.0};
+      expect(
+        () => WeatherData.fromJson(incompleteData),
+        throwsA(isA<FormatException>()),
+      );
+    });
+  });
 }
